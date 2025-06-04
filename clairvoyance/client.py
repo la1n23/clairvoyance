@@ -1,7 +1,7 @@
 import asyncio
 import json
 from typing import Dict, Optional
-
+import sys
 import aiohttp
 
 from clairvoyance.entities.context import client_ctx, log
@@ -59,6 +59,10 @@ class Client(IClient):  # pylint: disable=too-many-instance-attributes
                     proxy=self.proxy,
                 )
 
+                if response.status == 403:
+                    res = response.text()
+                    print("403 error", res)
+                    sys.exit(1)
                 if response.status >= 500:
                     log().warning(f"Received status code {response.status}")
                     return await self.post(document, retries + 1)

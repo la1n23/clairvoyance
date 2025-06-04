@@ -623,10 +623,14 @@ async def clairvoyance(
         description=f"Processing {len(tasks)} responses",
         total=len(tasks),
     ):
-        field, args = await task
-        for arg in args:
-            schema.add_type(arg.type.name, "INPUT_OBJECT")
-        schema.types[typename].fields.append(field)
-        schema.add_type(field.type.name, "OBJECT")
+        try:
+            field, args = await task
+            for arg in args:
+                schema.add_type(arg.type.name, "INPUT_OBJECT")
+            schema.types[typename].fields.append(field)
+            schema.add_type(field.type.name, "OBJECT")
+        except Exception as e:
+            print("Error ", e)
+            print("Continue...")
 
     return repr(schema)
