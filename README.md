@@ -2,7 +2,7 @@
 
 Clairvoyance fork with better UX.
 
-[![Original README](https://github.com/nikitastupin/clairvoyance/)
+[Original README](https://github.com/nikitastupin/clairvoyance/)
 
 ## Dev env setup
 
