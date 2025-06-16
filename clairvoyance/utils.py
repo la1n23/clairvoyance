@@ -70,7 +70,7 @@ def parse_args(args: List[str]) -> argparse.Namespace:
     parser.add_argument(
         "-H",
         "--header",
-        metavar="<header>",
+        metavar="<headers.txt>",
         dest="headers",
         action="append",
         default=[],

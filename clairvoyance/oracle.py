@@ -633,4 +633,5 @@ async def clairvoyance(
             print("Error ", e)
             print("Continue...")
 
+    # TODO: handle Ctrl+c, print current task's wordlist entry and exit
     return repr(schema)

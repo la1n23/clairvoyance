@@ -21,7 +21,6 @@ class Client(IClient):  # pylint: disable=too-many-instance-attributes
     ) -> None:
         self._url = url
         self._session = None
-
         self._headers = headers or {}
         self._max_retries = max_retries or 3
         self._semaphore = asyncio.Semaphore(concurrent_requests or 50)
@@ -59,13 +58,19 @@ class Client(IClient):  # pylint: disable=too-many-instance-attributes
                     proxy=self.proxy,
                 )
 
+                text = await response.text()
+                if 'Just a moment' in text:
+                    log().error('403 Cloudflare error')
+                    sys.exit(1)
+
                 if response.status == 403:
-                    res = response.text()
-                    print("403 error", res)
+                    log().error("403 error", text)
                     sys.exit(1)
                 if response.status >= 500:
                     log().warning(f"Received status code {response.status}")
+                    log().debug(text)
                     return await self.post(document, retries + 1)
+
 
                 return await response.json(content_type=None)
 

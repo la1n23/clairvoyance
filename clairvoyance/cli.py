@@ -120,9 +120,12 @@ def cli(argv: Optional[List[str]] = None) -> None:
     setup_logger(args.verbose)
 
     headers = {}
-    for h in args.headers:
-        key, value = h.split(": ", 1)
-        headers[key] = value
+    for f in args.headers:
+        with open(f, "r", encoding="utf-8") as h:
+            lines = [h.strip() for h in h.readlines() if h.strip()]
+            for h in lines:
+                key, value = h.split(": ", 1)
+                headers[key] = value
 
     wordlist = []
     if args.wordlist:
